@@ -1,9 +1,11 @@
 package com.example.ratplusapi.controller;
 
 import com.example.ratplusapi.dto.LineDto;
+import com.example.ratplusapi.dto.StationDto;
 import com.example.ratplusapi.dto.idfm.IdfmLinesResponse;
 import com.example.ratplusapi.service.LineService;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,6 +24,11 @@ public class LineController {
     @GetMapping
     public List<LineDto> getLines() {
         return lineService.getLines();
+    }
+
+    @GetMapping("/{lineId}/stations")
+    public List<StationDto> getStationsFromLineId(@PathVariable String lineId) {
+        return lineService.getStationsFromLineId(lineId);
     }
 
 }

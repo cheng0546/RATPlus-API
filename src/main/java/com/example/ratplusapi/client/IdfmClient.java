@@ -2,6 +2,7 @@ package com.example.ratplusapi.client;
 
 import com.example.ratplusapi.config.IdfmProperties;
 import com.example.ratplusapi.dto.idfm.IdfmLinesResponse;
+import com.example.ratplusapi.dto.idfm.IdfmStationResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 
@@ -32,5 +33,16 @@ public class IdfmClient {
                         .build())
                 .retrieve()
                 .body(IdfmLinesResponse.class);
+    }
+
+    public IdfmStationResponse getStationsFromLineId(String lineId) {
+        return restClient.get()
+                .uri(uriBuilder -> uriBuilder
+                        .path("/navitia/lines/" + lineId + "/stop_points")
+                        .queryParam("count", 100)
+                        .build()
+                )
+                .retrieve()
+                .body(IdfmStationResponse.class);
     }
 }
