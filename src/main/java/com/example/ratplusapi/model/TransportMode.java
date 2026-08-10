@@ -8,15 +8,15 @@ public enum TransportMode {
     TRAM("physical_mode:Tramway"),
     TRANSILIEN("physical_mode:LocalTrain");
 
-    private final String idfmPhysicalMode;
+    private final String navitiaPhysicalMode;
 
-    TransportMode(String idfmPhysicalMode) {
-        this.idfmPhysicalMode = idfmPhysicalMode;
+    TransportMode(String navitiaPhysicalMode) {
+        this.navitiaPhysicalMode = navitiaPhysicalMode;
     }
 
-    public static TransportMode fromIdfmPhysicalMode(String idfmPhysicalMode) {
+    public static TransportMode fromNavitiaPhysicalMode(String navitiaPhysicalMode) {
         return Arrays.stream(values())
-                .filter(mode -> mode.idfmPhysicalMode.equals(idfmPhysicalMode))
+                .filter(mode -> mode.navitiaPhysicalMode.equals(navitiaPhysicalMode))
                 .findFirst()
                 .orElse(null);
     }

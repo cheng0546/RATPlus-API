@@ -1,9 +1,9 @@
 package com.example.ratplusapi.service;
 
-import com.example.ratplusapi.client.IdfmClient;
+import com.example.ratplusapi.client.NavitiaClient;
 import com.example.ratplusapi.dto.LineDto;
 import com.example.ratplusapi.dto.StationDto;
-import com.example.ratplusapi.dto.idfm.*;
+import com.example.ratplusapi.dto.navitia.*;
 import com.example.ratplusapi.model.TransportMode;
 import org.springframework.stereotype.Service;
 
@@ -15,14 +15,14 @@ import java.util.stream.Collectors;
 @Service
 public class LineService {
 
-    private final IdfmClient idfmClient;
+    private final NavitiaClient navitiaClient;
 
-    public LineService (IdfmClient idfmClient) {
-        this.idfmClient = idfmClient;
+    public LineService (NavitiaClient navitiaClient) {
+        this.navitiaClient = navitiaClient;
     }
 
     public List<LineDto> getLines() {
-        IdfmLinesResponse response = idfmClient.getLines();
+        NavitiaLinesResponse response = navitiaClient.getLines();
 
         return response.lines()
                 .stream()
@@ -35,12 +35,12 @@ public class LineService {
     }
 
     public List<StationDto> getStationsFromLineId(String lineId) {
-        IdfmStationResponse response = idfmClient.getStationsFromLineId(lineId);
+        NavitiaStationResponse response = navitiaClient.getStationsFromLineId(lineId);
 
         return response.stations()
                 .stream()
                 .collect(Collectors.groupingBy(
-                        IdfmStation::name,
+                        NavitiaStation::name,
                         LinkedHashMap::new,
                         Collectors.toList()
                 ))
@@ -49,18 +49,18 @@ public class LineService {
                 .map(stopPoints -> new StationDto(
                         stopPoints.getFirst().name(),
                         stopPoints.stream()
-                                .map(IdfmStation::id)
+                                .map(NavitiaStation::id)
                                 .toList(),
                         stopPoints.getFirst().label()
                 ))
                 .toList();
     }
 
-    private TransportMode toTransportMode(IdfmLine line) {
+    private TransportMode toTransportMode(NavitiaLine line) {
 
         return line.physicalModes().stream()
-                .map(IdfmPhysicalMode::id)
-                .map(TransportMode::fromIdfmPhysicalMode)
+                .map(NavitiaPhysicalMode::id)
+                .map(TransportMode::fromNavitiaPhysicalMode)
                 .filter(Objects::nonNull)
                 .findFirst()
                 .orElse(null);

@@ -2,7 +2,6 @@ package com.example.ratplusapi.controller;
 
 import com.example.ratplusapi.dto.LineDto;
 import com.example.ratplusapi.dto.StationDto;
-import com.example.ratplusapi.dto.idfm.IdfmLinesResponse;
 import com.example.ratplusapi.service.LineService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
