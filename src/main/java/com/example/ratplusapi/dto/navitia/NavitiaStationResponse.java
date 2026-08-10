@@ -1,11 +1,11 @@
-package com.example.ratplusapi.dto.idfm;
+package com.example.ratplusapi.dto.navitia;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 
-public record IdfmStationResponse(
+public record NavitiaStationResponse(
         @JsonProperty("stop_points")
-        List<IdfmStation> stations
+        List<NavitiaStation> stations
 ) {
 }

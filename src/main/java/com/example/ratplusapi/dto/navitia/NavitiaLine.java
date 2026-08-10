@@ -1,10 +1,10 @@
-package com.example.ratplusapi.dto.idfm;
+package com.example.ratplusapi.dto.navitia;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 
-public record IdfmLine(
+public record NavitiaLine(
         String id,
         String name,
         String code,
@@ -14,6 +14,6 @@ public record IdfmLine(
         String textColor,
 
         @JsonProperty("physical_modes")
-        List<IdfmPhysicalMode> physicalModes
+        List<NavitiaPhysicalMode> physicalModes
 ) {
 }
