@@ -102,9 +102,16 @@ public class DepartureService {
                 .atZoneSameInstant(parisZone)
                 .toLocalDateTime();
 
+        String destination = firstValue(journey.destinationName());
+        String direction = firstValue(journey.directionName());
+        // Trains often have no DirectionName; group by destination instead
+        if (direction == null || direction.isBlank()) {
+            direction = destination;
+        }
+
         return new DepartureDto(
-                firstValue(journey.directionName()),
-                firstValue(journey.destinationName()),
+                direction,
+                destination,
                 arrivalTime,
                 departureTime,
                 call.departureStatus()
