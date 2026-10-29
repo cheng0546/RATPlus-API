@@ -10,6 +10,11 @@ import com.example.ratplusapi.dto.navitia.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 
+import java.nio.ByteBuffer;
+import java.nio.charset.CharacterCodingException;
+import java.nio.charset.CharsetEncoder;
+import java.nio.charset.CodingErrorAction;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
@@ -76,7 +81,27 @@ public class DepartureService {
     }
 
     private String firstValue(List<com.example.ratplusapi.dto.idfm.Value> values) {
-        return values == null || values.isEmpty() ? null : values.getFirst().value();
+        return values == null || values.isEmpty() ? null : fixMojibake(values.getFirst().value());
+    }
+
+    // Undo UTF-8 text that was decoded as Latin-1 (e.g. "LÃ©ger" -> "Léger"); leave valid text untouched
+    private String fixMojibake(String text) {
+        if (text == null || (text.indexOf('Ã') < 0 && text.indexOf('Â') < 0)) {
+            return text;
+        }
+        CharsetEncoder encoder = StandardCharsets.ISO_8859_1.newEncoder();
+        if (!encoder.canEncode(text)) {
+            return text;
+        }
+        try {
+            return StandardCharsets.UTF_8.newDecoder()
+                    .onMalformedInput(CodingErrorAction.REPORT)
+                    .onUnmappableCharacter(CodingErrorAction.REPORT)
+                    .decode(ByteBuffer.wrap(text.getBytes(StandardCharsets.ISO_8859_1)))
+                    .toString();
+        } catch (CharacterCodingException e) {
+            return text;
+        }
     }
 
     private DepartureDto toDepartureDto(MonitoredStopVisit visit) {
