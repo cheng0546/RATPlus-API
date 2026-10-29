@@ -1,8 +1,8 @@
-# RATPlus-API
+﻿# Le Métro Arrive API
 
-Backend REST API for **RATPlus**, a Paris public-transport departure information application.
+Backend REST API for **Le Métro Arrive**, a Paris public-transport departure information application.
 
-RATPlus-API is built with Spring Boot and uses the **Île-de-France Mobilités (IDFM) API** to retrieve public-transport lines, stations and real-time departures.
+Le Métro Arrive API is built with Spring Boot and uses the **Île-de-France Mobilités (IDFM) API** to retrieve public-transport lines, stations and real-time departures.
 
 ---
 
@@ -43,7 +43,7 @@ For local development, configure the required environment variable or local conf
 
 ## Supported Transport Modes
 
-RATPlus currently supports four types of public transport:
+Le Métro Arrive currently supports four types of public transport:
 
 | Transport  | IDFM physical mode           |
 | ---------- | ---------------------------- |
@@ -246,7 +246,7 @@ Example:
 2026-08-10T20:41:06.385Z
 ```
 
-RATPlus-API converts IDFM timestamps to:
+Le Métro Arrive API converts IDFM timestamps to:
 
 ```text
 Europe/Paris
@@ -272,7 +272,7 @@ Daylight-saving time is handled automatically.
 
 # IDFM Integration
 
-RATPlus-API uses the Île-de-France Mobilités APIs for:
+Le Métro Arrive API uses the Île-de-France Mobilités APIs for:
 
 * Transport lines
 * Stations / stop points
@@ -282,7 +282,7 @@ The backend uses dedicated `NavitiaClient` and `IdfmClient` to communicate with 
 
 The IDFM API key is sent by the client when making requests.
 
-The external API response is mapped to internal DTOs before being returned by RATPlus-API.
+The external API response is mapped to internal DTOs before being returned by Le Métro Arrive API.
 
 ---
 
